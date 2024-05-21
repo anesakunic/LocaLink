@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import Card from "../components/Card";
 import AddDetails from "../assets/adddeetails.png";
 import AddImage from "../assets/addimage.png";
@@ -34,7 +35,13 @@ const cardData = {
 
 };
 
+
 const HomePage = () => {
+  const navigate = useNavigate();
+
+  const handleReportClick = () => {
+    navigate("/report");
+  };
   return (
     <div>
       <div className="bg-blue text-font flex font-urbanist">
@@ -76,7 +83,7 @@ const HomePage = () => {
               </a>
               <a
                 href="#signup"
-                className="bg-transparent hover:bg-pink text-white rounded-2xl border-solid border-2 border-nav px-8 py-1 "
+                className="bg-transparent hover:bg-pink hover:text-blue rounded-2xl border-solid border-2 border-nav px-8 py-1 "
               >
                 Sign Up
               </a>
@@ -96,7 +103,7 @@ const HomePage = () => {
               of our city. Your concern for communal problems can now become a
               force for positive change
             </p>
-            <button className="bg-pink px-20 py-1 text-font text-3xl rounded-full mt-10">
+            <button onClick={handleReportClick} className="bg-pink px-20 py-1 text-font text-3xl rounded-full mt-10">
               Report a Problem
             </button>
           </div>
@@ -131,16 +138,16 @@ const HomePage = () => {
     <footer className="bg-blue h-[200px]">
         <div className="flex justify-center ml-60 space-x-10 text-font w-[1150px]">
           <div className="">
-            <h1>How do I change my account email?</h1>
-            <p>You can log in to your account and change it from your Profile > Edit Profile. Then go to the general tab to change your email.</p>
+            <h1 className="mt-5">How do I change my account email?</h1>
+            <p className="mt-2">You can log in to your account and change it from your Profile Edit Profile. Then go to the general tab to change your email.</p>
           </div>
           <div>
-            <h1>How can I report an issue or submit a suggestion?</h1>
-            <p>To report an issue or submit a suggestion, simply click on the "Report a Problem" button within the Localink platform. Follow the prompted steps to provide details about the problem or suggestion you wish to share. Our team will review your submission and take appropriate action accordingly.</p>
+            <h1 className="mt-5">How can I report an issue or submit a suggestion?</h1>
+            <p className="mt-2">To report an issue or submit a suggestion, simply click on the "Report a Problem" button within the Localink platform. Follow the prompted steps to provide details about the problem or suggestion you wish to share. Our team will review your submission and take appropriate action accordingly.</p>
           </div>
           <div>
-            <h1>Is Localink available in my area?</h1>
-            <p>Yes, Localink is available for the entire country of Bosnia and Herzegovina. Whether you're in urban centers or rural communities, you can access Localink to connect with your neighbors, stay informed about local events, and engage with your community.</p>
+            <h1 className="mt-5">Is Localink available in my area?</h1>
+            <p className="mt-2">Yes, Localink is available for the entire country of Bosnia and Herzegovina. Whether you're in urban centers or rural communities, you can access Localink to connect with your neighbors, stay informed about local events, and engage with your community.</p>
           </div>
         </div>
     </footer>

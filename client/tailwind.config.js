@@ -12,7 +12,8 @@ module.exports = {
       'nav': '#8794ba',
       'blue':'#172755',
       'font': '#FFFFFF',
-      'pink': '#EF2A82'
+      'pink': '#EF2A82',
+      'black': '#1E1E1E'
     },
   },
   plugins: [],
