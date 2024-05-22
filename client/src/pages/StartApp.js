@@ -1,76 +1,91 @@
 import React, { useState } from 'react';
-import LocationMap from '../components/LocationMap';
 
 const StartApp = () => {
-    const [image, setImage] = useState(null);
-    const [location, setLocation] = useState(null);
+    const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-  
-    const handleImageChange = (e) => {
-      setImage(URL.createObjectURL(e.target.files[0]));
-    };
-  
+    const [date, setDate] = useState('');
+
     const handleSubmit = (e) => {
-      e.preventDefault();
-      console.log({
-        image,
-        location,
-        description,
-      });
-     
+        e.preventDefault();
+        console.log({
+            title,
+            date,
+            description,
+        });
+        // Add logic to submit the report
+
+        // Redirect to /feed
+        window.location.href = '/feed';
     };
 
-  return (
-    <div className='bg-blue "max-w-sm mx-auto'>
-    <div className="max-w-md mx-auto p-4 shadow-md rounded-lg font-urbanist bg-black">
-      <form onSubmit={handleSubmit}>
-        <div className="mb-4">
-          <label className="block text-font text-sm font-bold mb-2" htmlFor="image">
-            Upload Image
-          </label>
-          <input
-            type="file"
-            id="image"
-            accept="image/*"
-            onChange={handleImageChange}
-            className="block w-full text-sm text-font file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-pink file:text-blue-700 hover:file:bg-blue-100"
-          />
+    const MAX_TITLE_LENGTH = 100;
+    const MAX_DESCRIPTION_LENGTH = 500;
+
+    return (
+        <div className="bg-blue min-h-screen flex flex-col items-center justify-center text-center font-urbanist">
+            <h1 className="text-4xl text-font mb-6">Almost There!</h1>
+            <div className="max-w-md mx-auto p-4 shadow-md rounded-lg bg-black">
+                {/* Title of Issue */}
+                <div className="mb-4">
+                    <label htmlFor="title" className="block text-font text-sm text-left mb-2">
+                        Title of Issue
+                    </label>
+                    <input
+                        type="text"
+                        id="title"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                        maxLength={MAX_TITLE_LENGTH}
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        placeholder="Enter title of issue"
+                    />
+                    <p className="text-xs text-gray-500 text-left">
+                        {title.length}/{MAX_TITLE_LENGTH} characters
+                    </p>
+                </div>
+                {/* Date */}
+                <div className="mb-4">
+                    <label htmlFor="date" className="block text-font text-sm text-left mb-2">
+                        Date
+                    </label>
+                    <input
+                        type="date"
+                        id="date"
+                        value={date}
+                        onChange={(e) => setDate(e.target.value)}
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    />
+                </div>
+                {/* Description */}
+                <div className="mb-4">
+                    <label htmlFor="description" className="block text-font text-sm text-left mb-2">
+                        Description
+                    </label>
+                    <textarea
+                        id="description"
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                        maxLength={MAX_DESCRIPTION_LENGTH}
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        placeholder="Enter description"
+                    ></textarea>
+                    <p className="text-xs text-gray-500 text-left">
+                        {description.length}/{MAX_DESCRIPTION_LENGTH} characters
+                    </p>
+                </div>
+            </div>
+            {/* Finish Button */}
+            <div className="flex items-center justify-center mt-4">
+                <button
+                    type="submit"
+                    onClick={handleSubmit}
+                    className="bg-pink px-20 py-1 text-font text-2xl rounded-full"
+                >
+                    Finish
+                </button>
+            </div>
         </div>
-        {image && (
-          <div className="mb-4">
-            <img src={image} alt="Preview" className="w-full h-auto rounded-lg" />
-          </div>
-        )}
-        <div className="mb-4">
-          <label className="block text-font text-sm font-bold mb-2">
-            Select Location
-          </label>
-          <LocationMap setLocation={setLocation} />
-        </div>
-        <div className="mb-4">
-          <label className="block text-font text-sm font-bold mb-2" htmlFor="description">
-            Description
-          </label>
-          <textarea
-            id="description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            placeholder="Enter description"
-          ></textarea>
-        </div>
-        <div className="flex items-center justify-between">
-          <button
-            type="submit"
-            className="bg-pink hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          >
-            Report
-          </button>
-        </div>
-      </form>
-    </div>
-    </div>
-  );
+    );
 };
 
 export default StartApp;
