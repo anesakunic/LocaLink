@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import eyeIcon from "../assets/eye.png";
 import crossIcon from "../assets/eyecross.png";
+import axios from 'axios';
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -13,15 +14,23 @@ const SignUp = () => {
     setShowPassword(!showPassword);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("Email:", email);
-    console.log("Username:", username);
-    console.log("Password:", password);
+    try {
+        const response = await axios.post('http://localhost:5000/auth/signup', {
+            email,
+            username,
+            password
+        });
+        console.log(response.data); // Handle successful response
+        // Optionally, you can redirect the user to another page upon successful sign up
+    } catch (error) {
+        console.error(error); // Handle error
+    }
     setEmail("");
     setUsername("");
     setPassword("");
-  };
+};
 
   return (
     <div className="bg-blue min-h-screen flex flex-col items-center justify-center text-center font-urbanist">
