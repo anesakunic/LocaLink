@@ -1,11 +1,12 @@
+// reportRoutes.js
 const express = require('express');
 const router = express.Router();
+const { createReport, getReports } = require('../controllers/reportController');
 
-// Import your controllers
-const { getReports, createReport } = require('../controllers/reportController');
+// Route for creating a report
+router.post('/create', createReport);
 
-// Define routes
-router.get('/reports', getReports);
-router.post('/reports', createReport);
+// Route for fetching all reports
+router.get('/', getReports);
 
 module.exports = router;

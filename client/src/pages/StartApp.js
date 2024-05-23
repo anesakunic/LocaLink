@@ -1,21 +1,32 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const StartApp = () => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [date, setDate] = useState('');
+    const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log({
-            title,
-            date,
-            description,
-        });
-        // Add logic to submit the report
+        try {
+            // Make a POST request to send the report data to the backend
+            const response = await axios.post('http://localhost:5000/reports/create', {
+                title,
+                description,
+                date
+            });
 
-        // Redirect to /feed
-        window.location.href = '/feed';
+            // Optionally, handle the response from the backend
+            console.log(response.data);
+
+            // Navigate to /feed
+            navigate('/feed');
+        } catch (error) {
+            // Handle error
+            console.error('Error submitting report:', error);
+        }
     };
 
     const MAX_TITLE_LENGTH = 100;
@@ -25,7 +36,6 @@ const StartApp = () => {
         <div className="bg-blue min-h-screen flex flex-col items-center justify-center text-center font-urbanist">
             <h1 className="text-4xl text-font mb-6">Almost There!</h1>
             <div className="max-w-md mx-auto p-4 shadow-md rounded-lg bg-black">
-                {/* Title of Issue */}
                 <div className="mb-4">
                     <label htmlFor="title" className="block text-font text-sm text-left mb-2">
                         Title of Issue
@@ -43,7 +53,6 @@ const StartApp = () => {
                         {title.length}/{MAX_TITLE_LENGTH} characters
                     </p>
                 </div>
-                {/* Date */}
                 <div className="mb-4">
                     <label htmlFor="date" className="block text-font text-sm text-left mb-2">
                         Date
@@ -56,7 +65,6 @@ const StartApp = () => {
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     />
                 </div>
-                {/* Description */}
                 <div className="mb-4">
                     <label htmlFor="description" className="block text-font text-sm text-left mb-2">
                         Description
@@ -74,7 +82,6 @@ const StartApp = () => {
                     </p>
                 </div>
             </div>
-            {/* Finish Button */}
             <div className="flex items-center justify-center mt-4">
                 <button
                     type="submit"
