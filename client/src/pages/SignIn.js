@@ -1,24 +1,33 @@
 import axios from 'axios';
-
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import eyeIcon from "../assets/eye.png";
 import crossIcon from "../assets/eyecross.png";
 
 const SignIn = () => {
-  const [emailOrUsername, setEmailOrUsername] = useState("");
+  const [username, setUsername] = useState(""); // Changed state variable name
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
 
   const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword); // Toggle the current state
+    setShowPassword(!showPassword);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("Email or Username:", emailOrUsername);
-    console.log("Password:", password);
-    setEmailOrUsername("");
+    try {
+      const response = await axios.post('http://localhost:5000/auth/signin', {
+        username, // Send username only
+        password
+      });
+      console.log(response.data);
+      navigate('/feed');
+    } catch (error) {
+      console.error(error);
+      // Handle error response
+    }
+    setUsername(""); // Clear username field
     setPassword("");
   };
 
@@ -29,11 +38,11 @@ const SignIn = () => {
         <form className="space-y-6 w-full max-w-lg" onSubmit={handleSubmit}>
           <input
             type="text"
-            placeholder="Enter Email or Username"
+            placeholder="Enter Username" // Changed placeholder text
             className="block w-full p-3 rounded-md text-center text-blue border-blue mb-4"
-            value={emailOrUsername}
-            onChange={(e) => setEmailOrUsername(e.target.value)}
-            style={{ width: "300px" }} // Adjusting width to make it wider
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            style={{ width: "300px" }}
           />
           <div className="relative">
             <input
@@ -42,7 +51,7 @@ const SignIn = () => {
               className="block w-full p-3 rounded-md text-center text-blue border-blue mb-4"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              style={{ width: "300px" }} // Adjusting width to make it wider
+              style={{ width: "300px" }}
             />
             <button type="button" onClick={togglePasswordVisibility} className="absolute right-3 top-3">
               <img src={showPassword ? eyeIcon : crossIcon} alt="Show/Hide Password" width="24" height="24" className="fill-current text-pink"/>

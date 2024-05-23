@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import eyeIcon from "../assets/eye.png";
 import crossIcon from "../assets/eyecross.png";
 import axios from 'axios';
@@ -9,6 +9,7 @@ const SignUp = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate(); // Initialize useHistory hook
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -17,24 +18,25 @@ const SignUp = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-        const response = await axios.post('http://localhost:5000/auth/signup', {
-            email,
-            username,
-            password
-        });
-        console.log(response.data); // Handle successful response
-        // Optionally, you can redirect the user to another page upon successful sign up
+      const response = await axios.post('http://localhost:5000/auth/signup', {
+        email,
+        username,
+        password
+      });
+      console.log(response.data); // Handle successful response
+      // Redirect to the signin page upon successful sign up
+      navigate('/signin');
     } catch (error) {
-        console.error(error); // Handle error
+      console.error(error); // Handle error
     }
     setEmail("");
     setUsername("");
     setPassword("");
-};
+  };
 
   return (
     <div className="bg-blue min-h-screen flex flex-col items-center justify-center text-center font-urbanist">
-      <div className="flex flex-col items-center justify-center"> {/* Adjusted margin-top from mt-10 to mt-6 */}
+      <div className="flex flex-col items-center justify-center">
         <h1 className="text-pink text-3xl mb-8">Sign Up</h1>
         <form className="space-y-6 w-full max-w-lg" onSubmit={handleSubmit}>
           <input

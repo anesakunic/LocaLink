@@ -26,4 +26,28 @@ router.post('/signup', async (req, res) => {
   }
 });
 
+// POST route for user sign-in
+router.post('/signin', async (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    // Check if user exists
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(401).json({ message: 'Invalid username or password' });
+    }
+
+    // Compare passwords directly (plaintext comparison)
+    if (password !== user.password) {
+      return res.status(401).json({ message: 'Invalid username or password' });
+    }
+
+    // Respond with success message
+    res.status(200).json({ message: 'Sign in successful' });
+  } catch (error) {
+    console.error('Error signing in user:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 module.exports = router;

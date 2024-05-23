@@ -15,14 +15,13 @@ const signUp = async (req, res) => {
             return res.status(400).json({ message: 'User with this email already exists' });
         }
 
-        // Hash the password
-        const hashedPassword = await bcrypt.hash(password, 10);
+        
 
         // Create a new user instance
         const newUser = new User({
             username,
             email,
-            password: hashedPassword
+            password
         });
 
         // Save the new user to the database
